@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
 const app = express();
+app.use(express.json());
 
 const accessTokenSecret = 'somerandomaccesstoken';
 const refreshTokenSecret = 'somerandomstringforrefreshtoken';
@@ -19,11 +19,12 @@ const users = [
     }
 ]
 
+//
+// gravado na memória apenas para simplificar o tutorial
+//
 const refreshTokens = [];
 
-app.use(bodyParser.json());
-
-app.post('/login', (req, res) => {
+app.post('/authenticate', (req, res) => {
     // read username and password from request body
     const { username, password } = req.body;
 
@@ -46,8 +47,9 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.post('/token', (req, res) => {
-    const { token } = req.body;
+app.post('/refresh-token', (req, res) => {
+    const tokenWithBearer = req.header('Authorization');
+    const token = tokenWithBearer.replace("Bearer ","").toString();
 
     if (!token) {
         return res.sendStatus(401);
@@ -80,9 +82,3 @@ app.post('/logout', (req, res) => {
 app.listen(3000, () => {
     console.log('Authentication service started on port 3000');
 });
-
-
-
-
-
-

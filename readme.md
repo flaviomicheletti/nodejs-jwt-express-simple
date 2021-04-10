@@ -1,5 +1,6 @@
-# nodejs-jwt-express-simple
+# nodejs-jwt-refresh-token
 
+Exempo de refresh token, utilizando microservices.
 
 Fonte
 

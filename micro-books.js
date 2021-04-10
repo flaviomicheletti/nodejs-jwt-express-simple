@@ -1,13 +1,10 @@
-
-const express = require('express');
-const bodyParser = require('body-parser');
-
 const jwt = require('jsonwebtoken');
+const express = require('express');
+
 const app = express();
+app.use(express.json());
 
 const accessTokenSecret = 'somerandomaccesstoken';
-
-app.use(bodyParser.json());
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -65,7 +62,6 @@ app.post('/books', authenticateJWT, (req, res) => {
     if (role !== 'admin') {
         return res.sendStatus(403);
     }
-
 
     const book = req.body;
     books.push(book);
