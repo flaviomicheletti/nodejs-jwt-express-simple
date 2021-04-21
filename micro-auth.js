@@ -12,7 +12,8 @@ const users = [
         username: 'john',
         password: 'password123admin',
         role: 'admin'
-    }, {
+    },
+    {
         username: 'anna',
         password: 'password123member',
         role: 'member'
@@ -56,12 +57,8 @@ app.post('/refresh-token', (req, res) => {
     }
 
     jwt.verify(token, refreshTokenSecret, (err, user) => {
-        if (err) {
-            return res.sendStatus(403);
-        }
-
+        if (err) return res.sendStatus(403);
         const accessToken = jwt.sign({ username: user.username, role: user.role }, accessTokenSecret, { expiresIn: '20m' });
-
         res.json({ accessToken });
     });
 });
