@@ -37,11 +37,7 @@ app.post('/authenticate', (req, res) => {
         const refreshToken = jwt.sign({ username: user.username, role: user.role }, refreshTokenSecret);
 
         refreshTokens.push(refreshToken);
-
-        res.json({
-            accessToken,
-            refreshToken
-        });
+        res.json({ accessToken, refreshToken });
     } else {
         res.send('Username or password incorrect');
     }
@@ -49,7 +45,7 @@ app.post('/authenticate', (req, res) => {
 
 app.post('/refresh-token', (req, res) => {
     const tokenWithBearer = req.header('Authorization');
-    const token = tokenWithBearer.replace("Bearer ","").toString();
+    const token = tokenWithBearer.replace("Bearer ", "").toString();
 
     if (!token) {
         return res.sendStatus(401);
@@ -66,9 +62,7 @@ app.post('/refresh-token', (req, res) => {
 
         const accessToken = jwt.sign({ username: user.username, role: user.role }, accessTokenSecret, { expiresIn: '20m' });
 
-        res.json({
-            accessToken
-        });
+        res.json({ accessToken });
     });
 });
 
